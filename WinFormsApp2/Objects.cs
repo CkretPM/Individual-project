@@ -2,29 +2,45 @@
 
 namespace Indigo
 {
-    internal class Object
+    internal class GameObject
     {
+        public int id;
         public string name = "Null";
         public Image picture;
-        public Point position = new Point();
-    }
-    internal class BoardImage : Object
-    {
-        public static int width = 1000;
-        public static int height = (int)(width * 2475f / 2452f);
-        public BoardImage()
-        {
-            name = "Empty_Board";
-            position = new Point(0, 0);
 
-            picture = Properties.Resources.Fin_Board;
+        public Point position = new Point();
+        public int Width = 100;
+        public int Height = 100;
+
+        public virtual void Draw(Graphics g, bool debugMode)
+        {
+            g.DrawImage(picture, position.X, position.Y, Width, Height);
         }
     }
-    internal class Tile : Object
+    internal class BoardImage : GameObject
+    {
+        public static new int Width = 1000;
+        public static new int Height = (int)(Width * 2475f / 2452f);
+
+        public BoardImage()
+        {
+            id = 0;
+            name = "Empty_Board";
+            picture = Properties.Resources.Fin_Board;
+
+            position = new Point(0, 0);
+        }
+
+        public override void Draw(Graphics g, bool debugMode)
+        {
+            g.DrawImage(picture, position.X, position.Y, Width, Height);
+        }
+    }
+    internal class Tile : GameObject
     {
         public Image originalPic;
-        public static int height = 125;
-        public static int width = (int)(height * 0.866);
+        public static new int Height = 125;
+        public static new int Width = (int)(Height * 0.866);
 
         public int numOfRotation = 0;
         public int index = -1;
@@ -35,73 +51,86 @@ namespace Indigo
         public bool active = false;
         public Rectangle rect;
 
-        public Tile(int tileNumber)
+        public Tile(int id, int tileNumber)
         {
-            rect = new Rectangle(position.X, position.Y, width, height - height / 4);
+            this.id = id;
+            rect = new Rectangle(position.X, position.Y, Width, Height - Height / 4);
+            picture = Properties.Resources.BackOfTile;
 
             switch (tileNumber)
             {
                 case 0:
                     name = "Center";
-                    picture = Properties.Resources.Center_tile;
+                    originalPic = Properties.Resources.Center_tile;
                     paths = [0, 1, 2, 3, 4, 5];
 
                     break;
                 case 1:
                     name = "Edge";
-                    picture = Properties.Resources.Edge_tile;
+                    originalPic = Properties.Resources.Edge_tile;
                     paths = [2, 1, 0, -1, -1, -1];
 
                     break;
                 case 2:
                     name = "GoBack";
-                    picture = Properties.Resources.GoBack_tile;
+                    originalPic = Properties.Resources.GoBack_tile;
                     paths = [5, 2, 1, 4, 3, 0];
 
                     break;
                 case 3:
                     name = "LetterH";
-                    picture = Properties.Resources.LetterH_tile;
+                    originalPic = Properties.Resources.LetterH_tile;
                     paths = [2, 4, 0, 5, 1, 3];
 
                     break;
                 case 4:
                     name = "OneWay";
-                    picture = Properties.Resources.OneWay_tile;
+                    originalPic = Properties.Resources.OneWay_tile;
                     paths = [5, 4, 3, 2, 1, 0];
 
                     break;
                 case 5:
                     name = "Overlap";
-                    picture = Properties.Resources.Overlap_tile;
+                    originalPic = Properties.Resources.Overlap_tile;
                     paths = [3, 4, 5, 0, 1, 2];
 
                     break;
                 case 6:
                     name = "Sad";
-                    picture = Properties.Resources.Sad_tile;
+                    originalPic = Properties.Resources.Sad_tile;
                     paths = [5, 3, 4, 1, 2, 0];
 
                     break;
                 default:
                     name = "Null";
-                    picture = Properties.Resources.BackOfTile;
+                    originalPic = Properties.Resources.BackOfTile;
                     paths = [-1, -1, -1, -1, -1, -1];
 
                     break;
             }
-            originalPic = picture;
+        }
+
+        public override void Draw(Graphics g, bool debugMode)
+        {
+            g.DrawImage(picture, position.X, position.Y, Width, Height);
+
+            if (debugMode)
+                g.DrawString(id.ToString(), SystemFonts.DefaultFont, Brushes.White, position.X + 25, position.Y + 25);
         }
     }
-    internal class Gem : Object
+    internal class Gem : GameObject
     {
-        public static int width = 25;
-        public static int height = 25;
+        public static new int Width = 25;
+        public static new int Height = 25;
+
         public int onTile = -1;
         public int onPath = -1;
         public bool active = false;
-        public Gem(int gemNumber) 
+
+        public Gem(int id, int gemNumber)
         {
+            this.id = id;
+
             switch (gemNumber)
             {
                 case 0:
@@ -122,15 +151,29 @@ namespace Indigo
                     break;
             }
         }
+
+        public override void Draw(Graphics g, bool debugMode)
+        {
+            g.DrawImage(picture, position.X, position.Y, Width, Height);
+
+            if (debugMode)
+            {
+                g.DrawString(id.ToString(), SystemFonts.DefaultFont, Brushes.Red, position.X + 25, position.Y);
+                g.FillRectangle(Brushes.Gray, position.X - 2, position.Y - 2, 4, 4);
+            }
+        }
     }
-    internal class PlayerToken : Object
+
+    internal class PlayerToken : GameObject
     {
-        public static int width = 50;
-        public static int height = 50;
+        public static new int Width = 50;
+        public static new int Height = 50;
 
         public int playerNumber;
-        public PlayerToken(int playerNumber, string color)
+
+        public PlayerToken(int id, int playerNumber, string color)
         {
+            this.id = id;
             this.playerNumber = playerNumber;
             name = color;
 
@@ -151,6 +194,16 @@ namespace Indigo
                     break;
             }
         }
+        public override void Draw(Graphics g, bool debugMode)
+        {
+            g.DrawImage(picture, position.X, position.Y, Width, Height);
+
+            if (debugMode)
+            {
+                g.DrawString(id.ToString(), SystemFonts.DefaultFont, Brushes.White, position.X + 25, position.Y + 25);
+                g.FillRectangle(Brushes.Gray, position.X - 2, position.Y - 2, 4, 4);
+            }
+        }
     }
 
     internal class DoubleBufferedPanel : Panel
@@ -169,8 +222,8 @@ namespace Indigo
             t = 0f;
             speed = 1f;
         }
-        
-        public Tile nextTile;
+
+        public Tile? nextTile;
         public Vector2 startPoint;
         public Vector2 middlePoint;
         public Vector2 endPoint;
