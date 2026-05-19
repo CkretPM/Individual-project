@@ -13,14 +13,14 @@
 
             this.numOfPlayers = numOfPlayers;
             labels = [playerLabel1, playerLabel2, playerLabel3, playerLabel4];
-            colors = ["Cyan", "Purple", "Red", "White"];
+            colors = ["Blue", "Green", "Red", "Yellow"];
         }
 
-        private void Cyan_Click(object sender, EventArgs e)
+        private void Blue_Click(object sender, EventArgs e)
         {
             chooseColor(0);
         }
-        private void Purple_Click(object sender, EventArgs e)
+        private void Green_Click(object sender, EventArgs e)
         {
             chooseColor(1);
         }
@@ -28,7 +28,7 @@
         {
             chooseColor(2);
         }
-        private void White_Click(object sender, EventArgs e)
+        private void Yellow_Click(object sender, EventArgs e)
         {
             chooseColor(3);
         }

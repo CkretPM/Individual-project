@@ -121,17 +121,14 @@
   <data name="BackOfTile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BackOfTile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Blue_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Blue_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Blue_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cyan_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Center_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Center_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Controls" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Controls.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cyan_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Cyan_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Edge_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Edge_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,8 +139,8 @@
   <data name="GoBack_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GoBack_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Green_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Green_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Green_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Purple_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LetterH_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LetterH_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,11 +148,17 @@
   <data name="OneWay_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OneWay_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Orange_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Green_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Overlap_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Overlap_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Purple_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Purple_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Purple_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Yellow_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Red_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Blue_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Red_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Red_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,10 +166,7 @@
   <data name="Sad_tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sad_tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="White_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Yellow_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\White_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Yellow_gem" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Yellow_gem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

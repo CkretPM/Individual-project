@@ -249,19 +249,19 @@ namespace Indigo
             int x_1 = 0;
             int y_1 = 0;
 
-            if (newGem.name == "Blue")
+            if (newGem.name == "Red")
             {
                 newGem.onTile = 0;
                 x_1 = (int)(points[0].X - Gem.Width / 2f);
                 y_1 = (int)(points[0].Y - Gem.Height / 2f);
             }
-            else if (newGem.name == "Green")
+            else if (newGem.name == "Orange")
             {
                 newGem.onTile = 0;
                 x_1 = (int)(points[0].X - Gem.Width / 2f + 30 * scale * (float)Math.Cos(gemNumber * 72 * Math.PI / 180f));
                 y_1 = (int)(points[0].Y - Gem.Height / 2f + 30 * scale * (float)Math.Sin(gemNumber * 72 * Math.PI / 180f));     //  30 = magic number
             }
-            else if (newGem.name == "Yellow")
+            else if (newGem.name == "Purple")
             {
                 newGem.onTile = 37 + gemNumber % 6;
                 newGem.onPath = (4 + gemNumber % 6) % 6;
@@ -594,9 +594,9 @@ namespace Indigo
             if ((border + 1) % 6 != gem.onPath && (border + 2) % 6 != gem.onPath)       // Bug fix
                 return;
 
-            if (gem.name == "Blue")
+            if (gem.name == "Red")
                 score = 3;
-            else if (gem.name == "Green")
+            else if (gem.name == "Orange")
                 score = 2;
             else
                 score = 1;

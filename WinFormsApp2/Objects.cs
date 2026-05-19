@@ -134,19 +134,19 @@ namespace Indigo
             switch (gemNumber)
             {
                 case 0:
-                    name = "Blue";
-                    picture = Properties.Resources.Blue_gem;
+                    name = "Red";
+                    picture = Properties.Resources.Red_gem;
 
                     break;
                 case 1:
-                    name = "Green";
-                    picture = Properties.Resources.Green_gem;
+                    name = "Orange";
+                    picture = Properties.Resources.Orange_gem;
 
                     break;
                 case 2:
                 default:
-                    name = "Yellow";
-                    picture = Properties.Resources.Yellow_gem;
+                    name = "Purple";
+                    picture = Properties.Resources.Purple_gem;
 
                     break;
             }
@@ -179,18 +179,18 @@ namespace Indigo
 
             switch (name)
             {
-                case "Cyan":
-                    picture = Properties.Resources.Cyan_point;
+                case "Blue":
+                    picture = Properties.Resources.Blue_point;
                     break;
-                case "Purple":
-                    picture = Properties.Resources.Purple_point;
+                case "Green":
+                    picture = Properties.Resources.Green_point;
                     break;
                 case "Red":
                     picture = Properties.Resources.Red_point;
                     break;
-                case "White":
+                case "Yellow":
                 default:
-                    picture = Properties.Resources.White_point;
+                    picture = Properties.Resources.Yellow_point;
                     break;
             }
         }

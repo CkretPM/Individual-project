@@ -73,9 +73,9 @@ namespace Indigo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Blue_gem {
+        internal static System.Drawing.Bitmap Blue_point {
             get {
-                object obj = ResourceManager.GetObject("Blue_gem", resourceCulture);
+                object obj = ResourceManager.GetObject("Blue_point", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -96,16 +96,6 @@ namespace Indigo.Properties {
         internal static System.Drawing.Bitmap Controls {
             get {
                 object obj = ResourceManager.GetObject("Controls", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Cyan_point {
-            get {
-                object obj = ResourceManager.GetObject("Cyan_point", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +133,9 @@ namespace Indigo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Green_gem {
+        internal static System.Drawing.Bitmap Green_point {
             get {
-                object obj = ResourceManager.GetObject("Green_gem", resourceCulture);
+                object obj = ResourceManager.GetObject("Green_point", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,6 +163,16 @@ namespace Indigo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Orange_gem {
+            get {
+                object obj = ResourceManager.GetObject("Orange_gem", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Overlap_tile {
             get {
                 object obj = ResourceManager.GetObject("Overlap_tile", resourceCulture);
@@ -183,9 +183,19 @@ namespace Indigo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Purple_point {
+        internal static System.Drawing.Bitmap Purple_gem {
             get {
-                object obj = ResourceManager.GetObject("Purple_point", resourceCulture);
+                object obj = ResourceManager.GetObject("Purple_gem", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Red_gem {
+            get {
+                object obj = ResourceManager.GetObject("Red_gem", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,19 +223,9 @@ namespace Indigo.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap White_point {
+        internal static System.Drawing.Bitmap Yellow_point {
             get {
-                object obj = ResourceManager.GetObject("White_point", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Yellow_gem {
-            get {
-                object obj = ResourceManager.GetObject("Yellow_gem", resourceCulture);
+                object obj = ResourceManager.GetObject("Yellow_point", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
