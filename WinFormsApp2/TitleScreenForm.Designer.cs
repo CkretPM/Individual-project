@@ -41,6 +41,10 @@
             rules1Button = new Button();
             rules2Button = new Button();
             label3 = new Label();
+            ConnectionButton = new Button();
+            StatusLabel = new Label();
+            ReadyButton = new Button();
+            LobbyListBox = new ListBox();
             ((System.ComponentModel.ISupportInitialize)stScale).BeginInit();
             SuspendLayout();
             // 
@@ -48,10 +52,9 @@
             // 
             startButton.AutoSize = true;
             startButton.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            startButton.Location = new Point(1159, 934);
-            startButton.Margin = new Padding(4, 4, 4, 4);
+            startButton.Location = new Point(927, 747);
             startButton.Name = "startButton";
-            startButton.Size = new Size(219, 66);
+            startButton.Size = new Size(175, 53);
             startButton.TabIndex = 1;
             startButton.Text = "Start Game";
             startButton.UseVisualStyleBackColor = true;
@@ -61,10 +64,9 @@
             // 
             label2.BackColor = Color.Gray;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(729, 781);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(583, 625);
             label2.Name = "label2";
-            label2.Size = new Size(401, 65);
+            label2.Size = new Size(321, 52);
             label2.TabIndex = 7;
             label2.Text = "Settings:";
             label2.TextAlign = ContentAlignment.MiddleCenter;
@@ -73,10 +75,9 @@
             // 
             st2Players.BackColor = Color.FromArgb(192, 255, 192);
             st2Players.Font = new Font("Segoe UI", 12F);
-            st2Players.Location = new Point(729, 875);
-            st2Players.Margin = new Padding(4, 4, 4, 4);
+            st2Players.Location = new Point(583, 700);
             st2Players.Name = "st2Players";
-            st2Players.Size = new Size(126, 50);
+            st2Players.Size = new Size(101, 40);
             st2Players.TabIndex = 8;
             st2Players.Text = "2 Players";
             st2Players.UseVisualStyleBackColor = false;
@@ -86,10 +87,9 @@
             // 
             st3Players.BackColor = Color.FromArgb(255, 192, 192);
             st3Players.Font = new Font("Segoe UI", 12F);
-            st3Players.Location = new Point(868, 875);
-            st3Players.Margin = new Padding(4, 4, 4, 4);
+            st3Players.Location = new Point(694, 700);
             st3Players.Name = "st3Players";
-            st3Players.Size = new Size(126, 50);
+            st3Players.Size = new Size(101, 40);
             st3Players.TabIndex = 9;
             st3Players.Text = "3 Players";
             st3Players.UseVisualStyleBackColor = false;
@@ -99,10 +99,9 @@
             // 
             st4Players.BackColor = Color.FromArgb(255, 192, 192);
             st4Players.Font = new Font("Segoe UI", 12F);
-            st4Players.Location = new Point(1004, 875);
-            st4Players.Margin = new Padding(4, 4, 4, 4);
+            st4Players.Location = new Point(803, 700);
             st4Players.Name = "st4Players";
-            st4Players.Size = new Size(126, 50);
+            st4Players.Size = new Size(101, 40);
             st4Players.TabIndex = 10;
             st4Players.Text = "4 Players";
             st4Players.UseVisualStyleBackColor = false;
@@ -112,10 +111,9 @@
             // 
             scaleLabel.BackColor = Color.Gray;
             scaleLabel.Font = new Font("Segoe UI", 12F);
-            scaleLabel.Location = new Point(729, 948);
-            scaleLabel.Margin = new Padding(4, 0, 4, 0);
+            scaleLabel.Location = new Point(583, 758);
             scaleLabel.Name = "scaleLabel";
-            scaleLabel.Size = new Size(264, 48);
+            scaleLabel.Size = new Size(211, 38);
             scaleLabel.TabIndex = 13;
             scaleLabel.Text = "Game scale: (%)";
             scaleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -124,12 +122,11 @@
             // 
             stScale.Font = new Font("Segoe UI", 14F);
             stScale.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            stScale.Location = new Point(1004, 948);
-            stScale.Margin = new Padding(4, 4, 4, 4);
+            stScale.Location = new Point(803, 758);
             stScale.Maximum = new decimal(new int[] { 200, 0, 0, 0 });
             stScale.Minimum = new decimal(new int[] { 50, 0, 0, 0 });
             stScale.Name = "stScale";
-            stScale.Size = new Size(126, 45);
+            stScale.Size = new Size(101, 39);
             stScale.TabIndex = 14;
             stScale.Value = new decimal(new int[] { 100, 0, 0, 0 });
             stScale.ValueChanged += stScale_ValueChanged;
@@ -138,10 +135,9 @@
             // 
             label1.BackColor = Color.Gray;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(268, 781);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(214, 625);
             label1.Name = "label1";
-            label1.Size = new Size(401, 65);
+            label1.Size = new Size(321, 52);
             label1.TabIndex = 15;
             label1.Text = "Game Rules:";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -149,10 +145,9 @@
             // video1Button
             // 
             video1Button.Font = new Font("Segoe UI", 12F);
-            video1Button.Location = new Point(488, 875);
-            video1Button.Margin = new Padding(4, 4, 4, 4);
+            video1Button.Location = new Point(390, 700);
             video1Button.Name = "video1Button";
-            video1Button.Size = new Size(181, 50);
+            video1Button.Size = new Size(145, 40);
             video1Button.TabIndex = 16;
             video1Button.Text = "Video (Rus)";
             video1Button.UseVisualStyleBackColor = true;
@@ -161,10 +156,9 @@
             // video2Button
             // 
             video2Button.Font = new Font("Segoe UI", 12F);
-            video2Button.Location = new Point(268, 875);
-            video2Button.Margin = new Padding(4, 4, 4, 4);
+            video2Button.Location = new Point(214, 700);
             video2Button.Name = "video2Button";
-            video2Button.Size = new Size(181, 50);
+            video2Button.Size = new Size(145, 40);
             video2Button.TabIndex = 17;
             video2Button.Text = "Video (Eng)";
             video2Button.UseVisualStyleBackColor = true;
@@ -173,10 +167,9 @@
             // rules1Button
             // 
             rules1Button.Font = new Font("Segoe UI", 12F);
-            rules1Button.Location = new Point(488, 945);
-            rules1Button.Margin = new Padding(4, 4, 4, 4);
+            rules1Button.Location = new Point(390, 756);
             rules1Button.Name = "rules1Button";
-            rules1Button.Size = new Size(181, 50);
+            rules1Button.Size = new Size(145, 40);
             rules1Button.TabIndex = 18;
             rules1Button.Text = "Rules (Rus)";
             rules1Button.UseVisualStyleBackColor = true;
@@ -185,10 +178,9 @@
             // rules2Button
             // 
             rules2Button.Font = new Font("Segoe UI", 12F);
-            rules2Button.Location = new Point(268, 945);
-            rules2Button.Margin = new Padding(4, 4, 4, 4);
+            rules2Button.Location = new Point(214, 756);
             rules2Button.Name = "rules2Button";
-            rules2Button.Size = new Size(181, 50);
+            rules2Button.Size = new Size(145, 40);
             rules2Button.TabIndex = 19;
             rules2Button.Text = "Rules (Eng)";
             rules2Button.UseVisualStyleBackColor = true;
@@ -199,20 +191,64 @@
             label3.BackColor = Color.Gray;
             label3.Font = new Font("Times New Roman", 72F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.FromArgb(0, 0, 192);
-            label3.Location = new Point(466, 255);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(373, 204);
             label3.Name = "label3";
-            label3.Size = new Size(467, 251);
+            label3.Size = new Size(405, 201);
             label3.TabIndex = 20;
             label3.Text = "Indigo";
             label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // ConnectionButton
+            // 
+            ConnectionButton.Location = new Point(752, 562);
+            ConnectionButton.Name = "ConnectionButton";
+            ConnectionButton.Size = new Size(144, 50);
+            ConnectionButton.TabIndex = 21;
+            ConnectionButton.Text = "Connect to DB";
+            ConnectionButton.UseVisualStyleBackColor = true;
+            ConnectionButton.Click += Connectection_button_Click;
+            // 
+            // StatusLabel
+            // 
+            StatusLabel.BackColor = Color.Gray;
+            StatusLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            StatusLabel.Location = new Point(752, 513);
+            StatusLabel.Name = "StatusLabel";
+            StatusLabel.Size = new Size(199, 33);
+            StatusLabel.TabIndex = 22;
+            StatusLabel.Text = "StatusLabel";
+            StatusLabel.TextAlign = ContentAlignment.MiddleCenter;
+            StatusLabel.Visible = false;
+            // 
+            // ReadyButton
+            // 
+            ReadyButton.Enabled = false;
+            ReadyButton.Location = new Point(936, 565);
+            ReadyButton.Name = "ReadyButton";
+            ReadyButton.Size = new Size(124, 47);
+            ReadyButton.TabIndex = 23;
+            ReadyButton.Text = "Ready?";
+            ReadyButton.UseVisualStyleBackColor = true;
+            ReadyButton.Click += ReadyButton_Click;
+            // 
+            // LobbyListBox
+            // 
+            LobbyListBox.FormattingEnabled = true;
+            LobbyListBox.Location = new Point(803, 396);
+            LobbyListBox.Name = "LobbyListBox";
+            LobbyListBox.Size = new Size(279, 84);
+            LobbyListBox.TabIndex = 24;
+            // 
             // TitleScreenForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
-            ClientSize = new Size(1406, 1019);
+            ClientSize = new Size(1125, 815);
+            Controls.Add(LobbyListBox);
+            Controls.Add(ReadyButton);
+            Controls.Add(StatusLabel);
+            Controls.Add(ConnectionButton);
             Controls.Add(label3);
             Controls.Add(rules2Button);
             Controls.Add(rules1Button);
@@ -226,10 +262,10 @@
             Controls.Add(st2Players);
             Controls.Add(label2);
             Controls.Add(startButton);
-            Margin = new Padding(4, 4, 4, 4);
             Name = "TitleScreenForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TitleScreenForm";
+            FormClosing += TitleScreenForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)stScale).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -249,5 +285,9 @@
         private Button rules1Button;
         private Button rules2Button;
         private Label label3;
+        private Button ConnectionButton;
+        private Label StatusLabel;
+        private Button ReadyButton;
+        private ListBox LobbyListBox;
     }
 }

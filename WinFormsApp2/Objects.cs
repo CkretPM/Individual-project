@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace Indigo
 {
@@ -50,7 +51,7 @@ namespace Indigo
 
         public bool active = false;
         public Rectangle rect;
-
+        
         public Tile(int id, int tileNumber)
         {
             this.id = id;
@@ -109,7 +110,14 @@ namespace Indigo
                     break;
             }
         }
+        public Tile(int id, int numOfRotation, int index)
+        {
+            originalPic = Properties.Resources.BackOfTile;
 
+            this.id = id;
+            this.numOfRotation = numOfRotation;
+            this.index = index;
+        }
         public override void Draw(Graphics g, bool debugMode)
         {
             g.DrawImage(picture, position.X, position.Y, Width, Height);
@@ -117,6 +125,9 @@ namespace Indigo
             if (debugMode)
                 g.DrawString(id.ToString(), SystemFonts.DefaultFont, Brushes.White, position.X + 25, position.Y + 25);
         }
+
+        public override string ToString() =>
+            $"Tile(id={id}, rotations={numOfRotation}, index={index})";
     }
     internal class Gem : GameObject
     {

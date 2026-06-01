@@ -44,10 +44,22 @@ namespace Indigo
         bool rightDown = false;                                     // mouse buttons
 
         bool isOnlineGame = false;                                  // online 
+        private MultiplayerManager? _mp;
+        private bool _isClosing = false;
 
-        public GameForm(int[] sizesOfObjects, float percent, int playerCount)
+        public GameForm(int[] sizesOfObjects, float percent, int playerCount, MultiplayerManager? mp = null)
         {
             InitializeComponent();
+
+            _mp = mp;
+
+            // Re-wire the turn event here, where the game logic lives
+            if (_mp is not null)
+            {
+                _mp.OnTurnReceived += OnTurnReceived;
+                _mp.OnGameClosed += OnGameClosed;
+            }
+
 
             placedTiles = new Tile[3 * rings * rings - 3 * rings + 1];
             numOfPlayers = playerCount;
@@ -442,6 +454,10 @@ namespace Indigo
             tile.position = new Point(newX, newY);
             placedTiles[index] = tile;
 
+            //Send turn to other players here
+            if (_mp is not null)
+                _ = _mp.SendTurnAsync(tile);
+
             List<int> neighborIndexies = FindNeighbors(new_pos);
             if (!neighborIndexies.Any())
                 return;
@@ -625,6 +641,49 @@ namespace Indigo
         {
             //TODO
         }
+
+
+        private void OnTurnReceived(Tile tile, string fromPlayerPrefix)
+        {
+            Invoke(() => ApplyTurn(tile, fromPlayerPrefix));
+        }
+        private void OnGameClosed()
+        {
+            Invoke(() =>
+            {
+                _mp!.OnTurnReceived -= OnTurnReceived;
+                _mp!.OnGameClosed -= OnGameClosed;
+                this.Close();  // triggers TitleScreenForm to show via FormClosed event
+            });
+        }
+
+        private void ApplyTurn(Tile tile, string fromPlayerPrefix)
+        {
+            // To do with
+            // tile.Id, tile.NumOfRotation, tile.Index
+            // e.g. placedTiles[tile.Index] = tile;
+            // boardPanel.Invalidate();
+        }
+        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_isClosing) return;
+
+            if (_mp is not null)
+            {
+                e.Cancel = true;
+
+                _mp.OnTurnReceived -= OnTurnReceived;
+                _mp.OnGameClosed -= OnGameClosed;
+
+                Task.Run(async () =>
+                {
+                    await _mp.NotifyGameClosedAsync();
+                    _isClosing = true;
+                    Invoke(Close);
+                });
+            }
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (selectedTile == null)

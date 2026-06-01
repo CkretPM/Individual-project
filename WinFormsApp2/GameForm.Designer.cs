@@ -66,10 +66,9 @@
             debugLabel1.BackColor = SystemColors.ControlDarkDark;
             debugLabel1.Font = new Font("Segoe UI", 14F);
             debugLabel1.ForeColor = SystemColors.ActiveCaptionText;
-            debugLabel1.Location = new Point(29, 325);
-            debugLabel1.Margin = new Padding(4, 0, 4, 0);
+            debugLabel1.Location = new Point(23, 260);
             debugLabel1.Name = "debugLabel1";
-            debugLabel1.Size = new Size(443, 692);
+            debugLabel1.Size = new Size(354, 554);
             debugLabel1.TabIndex = 0;
             debugLabel1.Text = "Card 1 of 10";
             debugLabel1.Visible = false;
@@ -83,10 +82,10 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlDarkDark;
-            panel1.Location = new Point(287, 1293);
-            panel1.Margin = new Padding(4, 3, 4, 3);
+            panel1.Location = new Point(230, 1034);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(184, 257);
+            panel1.Size = new Size(147, 206);
             panel1.TabIndex = 1;
             panel1.Visible = false;
             panel1.Paint += Panel1_Paint;
@@ -95,10 +94,10 @@
             // 
             Board.BackColor = Color.Navy;
             Board.Controls.Add(controlsPicture);
-            Board.Location = new Point(507, 33);
-            Board.Margin = new Padding(4, 3, 4, 3);
+            Board.Location = new Point(406, 26);
+            Board.Margin = new Padding(3, 2, 3, 2);
             Board.Name = "Board";
-            Board.Size = new Size(1543, 1600);
+            Board.Size = new Size(1234, 1280);
             Board.TabIndex = 0;
             Board.Paint += Board_Paint;
             Board.MouseDown += BoardMouseDown;
@@ -109,10 +108,10 @@
             // 
             controlsPicture.BackColor = Color.Transparent;
             controlsPicture.Image = Properties.Resources.Controls;
-            controlsPicture.Location = new Point(7, 567);
-            controlsPicture.Margin = new Padding(4, 3, 4, 3);
+            controlsPicture.Location = new Point(6, 454);
+            controlsPicture.Margin = new Padding(3, 2, 3, 2);
             controlsPicture.Name = "controlsPicture";
-            controlsPicture.Size = new Size(533, 542);
+            controlsPicture.Size = new Size(426, 434);
             controlsPicture.SizeMode = PictureBoxSizeMode.Zoom;
             controlsPicture.TabIndex = 1;
             controlsPicture.TabStop = false;
@@ -123,10 +122,9 @@
             debugLabel2.BackColor = SystemColors.ControlDarkDark;
             debugLabel2.Font = new Font("Segoe UI", 14F);
             debugLabel2.ForeColor = SystemColors.ActiveCaptionText;
-            debugLabel2.Location = new Point(29, 1050);
-            debugLabel2.Margin = new Padding(4, 0, 4, 0);
+            debugLabel2.Location = new Point(23, 840);
             debugLabel2.Name = "debugLabel2";
-            debugLabel2.Size = new Size(443, 500);
+            debugLabel2.Size = new Size(354, 400);
             debugLabel2.TabIndex = 2;
             debugLabel2.Text = "Rotation:";
             debugLabel2.Visible = false;
@@ -139,10 +137,10 @@
             // debugButton
             // 
             debugButton.AutoSize = true;
-            debugButton.Location = new Point(117, 260);
-            debugButton.Margin = new Padding(4, 3, 4, 3);
+            debugButton.Location = new Point(94, 208);
+            debugButton.Margin = new Padding(3, 2, 3, 2);
             debugButton.Name = "debugButton";
-            debugButton.Size = new Size(119, 42);
+            debugButton.Size = new Size(95, 34);
             debugButton.TabIndex = 3;
             debugButton.Text = "Debugging";
             debugButton.UseVisualStyleBackColor = true;
@@ -152,10 +150,10 @@
             // 
             playersButton.AutoSize = true;
             playersButton.Font = new Font("Segoe UI", 12F);
-            playersButton.Location = new Point(264, 110);
-            playersButton.Margin = new Padding(4, 3, 4, 3);
+            playersButton.Location = new Point(211, 88);
+            playersButton.Margin = new Padding(3, 2, 3, 2);
             playersButton.Name = "playersButton";
-            playersButton.Size = new Size(207, 52);
+            playersButton.Size = new Size(166, 42);
             playersButton.TabIndex = 5;
             playersButton.Text = "Choose players";
             playersButton.UseVisualStyleBackColor = true;
@@ -165,10 +163,9 @@
             // 
             label1.BackColor = Color.Gray;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(29, 33);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(23, 26);
             label1.Name = "label1";
-            label1.Size = new Size(443, 65);
+            label1.Size = new Size(354, 52);
             label1.TabIndex = 6;
             label1.Text = "Options:";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -176,10 +173,10 @@
             // hideButton
             // 
             hideButton.AutoSize = true;
-            hideButton.Location = new Point(117, 202);
-            hideButton.Margin = new Padding(4, 3, 4, 3);
+            hideButton.Location = new Point(94, 162);
+            hideButton.Margin = new Padding(3, 2, 3, 2);
             hideButton.Name = "hideButton";
-            hideButton.Size = new Size(119, 42);
+            hideButton.Size = new Size(95, 34);
             hideButton.TabIndex = 7;
             hideButton.Text = "Hide all";
             hideButton.UseVisualStyleBackColor = true;
@@ -188,10 +185,10 @@
             // player0
             // 
             player0.BackColor = Color.Gray;
-            player0.Location = new Point(29, 408);
-            player0.Margin = new Padding(4, 3, 4, 3);
+            player0.Location = new Point(23, 326);
+            player0.Margin = new Padding(3, 2, 3, 2);
             player0.Name = "player0";
-            player0.Size = new Size(64, 75);
+            player0.Size = new Size(51, 60);
             player0.SizeMode = PictureBoxSizeMode.Zoom;
             player0.TabIndex = 8;
             player0.TabStop = false;
@@ -199,10 +196,10 @@
             // player1
             // 
             player1.BackColor = Color.Gray;
-            player1.Location = new Point(29, 500);
-            player1.Margin = new Padding(4, 3, 4, 3);
+            player1.Location = new Point(23, 400);
+            player1.Margin = new Padding(3, 2, 3, 2);
             player1.Name = "player1";
-            player1.Size = new Size(64, 75);
+            player1.Size = new Size(51, 60);
             player1.SizeMode = PictureBoxSizeMode.Zoom;
             player1.TabIndex = 9;
             player1.TabStop = false;
@@ -211,10 +208,9 @@
             // 
             playerScore0.BackColor = Color.Gray;
             playerScore0.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            playerScore0.Location = new Point(117, 408);
-            playerScore0.Margin = new Padding(4, 0, 4, 0);
+            playerScore0.Location = new Point(94, 326);
             playerScore0.Name = "playerScore0";
-            playerScore0.Size = new Size(86, 75);
+            playerScore0.Size = new Size(69, 60);
             playerScore0.TabIndex = 10;
             playerScore0.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -222,10 +218,9 @@
             // 
             playerScore1.BackColor = Color.Gray;
             playerScore1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            playerScore1.Location = new Point(117, 500);
-            playerScore1.Margin = new Padding(4, 0, 4, 0);
+            playerScore1.Location = new Point(94, 400);
             playerScore1.Name = "playerScore1";
-            playerScore1.Size = new Size(86, 75);
+            playerScore1.Size = new Size(69, 60);
             playerScore1.TabIndex = 11;
             playerScore1.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -233,10 +228,9 @@
             // 
             label2.BackColor = Color.Gray;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(29, 325);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(23, 260);
             label2.Name = "label2";
-            label2.Size = new Size(300, 65);
+            label2.Size = new Size(240, 52);
             label2.TabIndex = 12;
             label2.Text = "Players' points:";
             label2.TextAlign = ContentAlignment.MiddleCenter;
@@ -246,10 +240,10 @@
             backButton.AutoSize = true;
             backButton.BackColor = Color.White;
             backButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            backButton.Location = new Point(264, 202);
-            backButton.Margin = new Padding(4, 3, 4, 3);
+            backButton.Location = new Point(211, 162);
+            backButton.Margin = new Padding(3, 2, 3, 2);
             backButton.Name = "backButton";
-            backButton.Size = new Size(207, 100);
+            backButton.Size = new Size(166, 80);
             backButton.TabIndex = 13;
             backButton.Text = "Back to the \r\ntitle screen";
             backButton.UseVisualStyleBackColor = false;
@@ -259,10 +253,10 @@
             // 
             rulesButton.AutoSize = true;
             rulesButton.Font = new Font("Segoe UI", 12F);
-            rulesButton.Location = new Point(29, 110);
-            rulesButton.Margin = new Padding(4, 3, 4, 3);
+            rulesButton.Location = new Point(23, 88);
+            rulesButton.Margin = new Padding(3, 2, 3, 2);
             rulesButton.Name = "rulesButton";
-            rulesButton.Size = new Size(207, 52);
+            rulesButton.Size = new Size(166, 42);
             rulesButton.TabIndex = 14;
             rulesButton.Text = "Short rules";
             rulesButton.UseVisualStyleBackColor = true;
@@ -272,10 +266,9 @@
             // 
             playerScore3.BackColor = Color.Gray;
             playerScore3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            playerScore3.Location = new Point(353, 500);
-            playerScore3.Margin = new Padding(4, 0, 4, 0);
+            playerScore3.Location = new Point(282, 400);
             playerScore3.Name = "playerScore3";
-            playerScore3.Size = new Size(86, 75);
+            playerScore3.Size = new Size(69, 60);
             playerScore3.TabIndex = 18;
             playerScore3.TextAlign = ContentAlignment.MiddleLeft;
             playerScore3.Visible = false;
@@ -284,10 +277,9 @@
             // 
             playerScore2.BackColor = Color.Gray;
             playerScore2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            playerScore2.Location = new Point(353, 408);
-            playerScore2.Margin = new Padding(4, 0, 4, 0);
+            playerScore2.Location = new Point(282, 326);
             playerScore2.Name = "playerScore2";
-            playerScore2.Size = new Size(86, 75);
+            playerScore2.Size = new Size(69, 60);
             playerScore2.TabIndex = 17;
             playerScore2.TextAlign = ContentAlignment.MiddleLeft;
             playerScore2.Visible = false;
@@ -295,10 +287,10 @@
             // player3
             // 
             player3.BackColor = Color.Gray;
-            player3.Location = new Point(264, 500);
-            player3.Margin = new Padding(4, 3, 4, 3);
+            player3.Location = new Point(211, 400);
+            player3.Margin = new Padding(3, 2, 3, 2);
             player3.Name = "player3";
-            player3.Size = new Size(64, 75);
+            player3.Size = new Size(51, 60);
             player3.SizeMode = PictureBoxSizeMode.Zoom;
             player3.TabIndex = 16;
             player3.TabStop = false;
@@ -307,10 +299,10 @@
             // player2
             // 
             player2.BackColor = Color.Gray;
-            player2.Location = new Point(264, 408);
-            player2.Margin = new Padding(4, 3, 4, 3);
+            player2.Location = new Point(211, 326);
+            player2.Margin = new Padding(3, 2, 3, 2);
             player2.Name = "player2";
-            player2.Size = new Size(64, 75);
+            player2.Size = new Size(51, 60);
             player2.SizeMode = PictureBoxSizeMode.Zoom;
             player2.TabIndex = 15;
             player2.TabStop = false;
@@ -320,20 +312,19 @@
             // 
             controlsLabel.BackColor = Color.Gray;
             controlsLabel.Font = new Font("Segoe UI", 13F);
-            controlsLabel.Location = new Point(29, 600);
-            controlsLabel.Margin = new Padding(4, 0, 4, 0);
+            controlsLabel.Location = new Point(23, 480);
             controlsLabel.Name = "controlsLabel";
-            controlsLabel.Size = new Size(443, 417);
+            controlsLabel.Size = new Size(354, 334);
             controlsLabel.TabIndex = 19;
             controlsLabel.Text = resources.GetString("controlsLabel.Text");
             // 
             // GameForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(2071, 1370);
+            ClientSize = new Size(1657, 1096);
             Controls.Add(backButton);
             Controls.Add(controlsLabel);
             Controls.Add(playerScore3);
@@ -356,11 +347,12 @@
             Controls.Add(debugLabel1);
             DoubleBuffered = true;
             KeyPreview = true;
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "GameForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Indigo";
             WindowState = FormWindowState.Maximized;
+            FormClosing += GameForm_FormClosing;
             ResizeEnd += GameForm_ResizeEnd;
             KeyDown += Form1_KeyDown;
             Board.ResumeLayout(false);
