@@ -1,4 +1,6 @@
+using System;
 using System.Numerics;
+using System.Windows.Forms;
 
 namespace Indigo
 {
@@ -47,7 +49,7 @@ namespace Indigo
         private MultiplayerManager? _mp;
         private bool _isClosing = false;
 
-        public GameForm(int[] sizesOfObjects, float percent, int playerCount, MultiplayerManager? mp = null)
+        public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp = null)
         {
             InitializeComponent();
 
@@ -59,10 +61,8 @@ namespace Indigo
                 _mp.OnTurnReceived += OnTurnReceived;
                 _mp.OnGameClosed += OnGameClosed;
             }
-
-
+            
             placedTiles = new Tile[3 * rings * rings - 3 * rings + 1];
-            numOfPlayers = playerCount;
             scale = percent;
 
             SizeAdjustments(sizesOfObjects, percent);
@@ -80,6 +80,16 @@ namespace Indigo
             points = CreateHexGrid(center, rings, distanceFromCtoC);
 
             SetUpApp();
+
+            if (playerColors is not null)
+            {
+                this.playerColors = playerColors;
+
+                numOfPlayers = playerColors.Count;
+                MakeTokens(playerColors);
+
+                MakeScoreBoard();
+            }
 
             BuildStaticLayer();
         }
@@ -317,6 +327,28 @@ namespace Indigo
 
                 numOfRotations--;
                 i++;
+            }
+        }
+        private void MakeScoreBoard()
+        {
+            PictureBox[] playerPBs = [player0, player1, player2, player3];
+            Label[] playerLabels = [playerScore0, playerScore1, playerScore2, playerScore3];
+
+            int[] playerNum = numOfPlayers switch
+            {
+                4 => [0, 1, 10, 11],
+                3 => [0, 10, 11],
+                _ => [0, 10],
+            };
+            for (int i = 0; i < playerNum.Length; i++)
+            {
+                playerPBs[i].Visible = true;
+                playerPBs[i].Image = playerTokens[playerNum[i]].picture;
+
+                playersPoints.Add(0);
+
+                playerLabels[i].Visible = true;
+                playerLabels[i].Text = " 0";
             }
         }
         private List<int[]> CreateGatewayOwners(int playerCount)
@@ -623,15 +655,14 @@ namespace Indigo
             if (player1 == player2)
                 score /= 2;
 
-            var pl = player1;
-            for (int i = 0; i < numOfPlayers; i++)
-            {
-                playersPoints[pl] += score;
-                pl = player2;
-            }
+            playersPoints[player1] += score;
+            playersPoints[player2] += score;
 
-            playerScore0.Text = " " + (int)playersPoints[0];
-            playerScore1.Text = " " + (int)playersPoints[1];
+            Label[] labels = [playerScore0, playerScore1, playerScore2, playerScore3];
+
+            for (int i = 0; i < playersPoints.Count; i++)
+                labels[i].Text = " " + (int)playersPoints[i];
+
 
             gemsLeft--;
             if (gemsLeft == 0)
@@ -657,12 +688,29 @@ namespace Indigo
             });
         }
 
-        private void ApplyTurn(Tile tile, string fromPlayerPrefix)
+        private void ApplyTurn(Tile transferTile, string fromPlayerPrefix)
         {
+            var realTile = tiles[transferTile.id];
+
+            if (realTile.index != -1)
+                return;
+
+            realTile.position.X = (int)points[transferTile.index].X - Tile.Width / 2;
+            realTile.position.Y = (int)points[transferTile.index].Y - Tile.Height / 2;
+
+            int timeToTurn = transferTile.numOfRotation;
+
+            for (int i = 0; i < timeToTurn; i++)
+                RotateTile(realTile, true);
+
+            Snap(realTile);
+
             // To do with
             // tile.Id, tile.NumOfRotation, tile.Index
             // e.g. placedTiles[tile.Index] = tile;
-            // boardPanel.Invalidate();
+
+            BuildStaticLayer();
+            Board.Invalidate();
         }
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1079,19 +1127,14 @@ namespace Indigo
             if (player0.Image != null)
                 return;
 
-            using (var form = new PlayerForm(numOfPlayers))
+            using (var form = new PlayerForm())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
+                    numOfPlayers = form.playerColors.Count;
                     MakeTokens(form.playerColors);
 
-                    player0.Image = playerTokens[0].picture;
-                    playersPoints.Add(0);
-                    playerScore0.Text = " 0";
-
-                    player1.Image = playerTokens[numOfPlayers].picture;
-                    playersPoints.Add(0);
-                    playerScore1.Text = " 0";
+                    MakeScoreBoard();
 
                     foreach (var gem in gems.Where(g => g.onTile >= 43))
                         ScoreUpdate(gem);
@@ -1126,11 +1169,24 @@ namespace Indigo
             panel1.Visible = debugMode;
 
             label2.Visible = !debugMode;
+            controlsLabel.Visible = !debugMode;
+
             player0.Visible = !debugMode;
             player1.Visible = !debugMode;
             playerScore0.Visible = !debugMode;
             playerScore1.Visible = !debugMode;
-            controlsLabel.Visible = !debugMode;
+            
+
+            if (numOfPlayers > 3)
+            {
+                player2.Visible = !debugMode;
+                playerScore2.Visible = !debugMode;
+            }
+            if (numOfPlayers == 4)
+            {
+                player3.Visible = !debugMode;
+                playerScore3.Visible = !debugMode;
+            }
 
             BuildStaticLayer();
             Board.Invalidate();

@@ -55,7 +55,7 @@
             doneButton.TabIndex = 0;
             doneButton.Text = "Done";
             doneButton.UseVisualStyleBackColor = false;
-            doneButton.Click += doneButton_Click;
+            doneButton.Click += DoneButton_Click;
             // 
             // Blue
             // 
@@ -174,7 +174,7 @@
             cancelButton.TabIndex = 18;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
-            cancelButton.Click += cancelButton_Click;
+            cancelButton.Click += CancelButton_Click;
             // 
             // PlayerForm
             // 

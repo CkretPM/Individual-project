@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using System.Diagnostics;
 
 namespace Indigo
 {
@@ -29,30 +30,45 @@ namespace Indigo
             _connectionString = connectionString;
         }
 
-        public async Task RegisterPlayerAsync(string color = "White")
+        public async Task<bool> RegisterPlayerAsync(string color = "White")
         {
-            _myId = Guid.NewGuid();
-            _myName = "Player_" + _myId.ToString()[..4];
-            _myColor = color;
+            try
+            {
+                _myId = Guid.NewGuid();
+                _myName = "Player_" + _myId.ToString()[..4];
+                _myColor = color;
 
-            using var conn = new NpgsqlConnection(_connectionString);
-            await conn.OpenAsync();
+                using var conn = new NpgsqlConnection(_connectionString);
+                await conn.OpenAsync();
 
-            const string sql =
-                """
-            INSERT INTO players (player_id, player_name, color, is_ready)
-            VALUES (@id, @name, @color, FALSE)
-            """;
+                const string sql =
+                    """
+                    INSERT INTO players (player_id, player_name, color, is_ready)
+                    VALUES (@id, @name, @color, FALSE)
+                    """;
 
-            using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("id", _myId);
-            cmd.Parameters.AddWithValue("name", _myName);
-            cmd.Parameters.AddWithValue("color", _myColor);
-            await cmd.ExecuteNonQueryAsync();
+                using var cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("id", _myId);
+                cmd.Parameters.AddWithValue("name", _myName);
+                cmd.Parameters.AddWithValue("color", _myColor);
+                await cmd.ExecuteNonQueryAsync();
 
-            OnRegistered?.Invoke(_myId, _myName);
+                OnRegistered?.Invoke(_myId, _myName);
 
-            StartListening();
+                StartListening();
+
+                return true;
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show(
+                    $"Cannot connect to database.\n\n{ex.Message}",
+                    "Database Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
         }
 
         public async Task SetReadyAsync()
@@ -80,11 +96,11 @@ namespace Indigo
 
             const string sql =
                 """
-            INSERT INTO turns
-                (session_id, player_id, tile_id, num_of_rotation, tile_index, turn_number)
-            VALUES
-                (@session, @player, @tile, @rot, @idx, @turn)
-            """;
+                INSERT INTO turns
+                    (session_id, player_id, tile_id, num_of_rotation, tile_index, turn_number)
+                VALUES
+                    (@session, @player, @tile, @rot, @idx, @turn)
+                """;
 
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("session", _currentSessionId);
@@ -100,6 +116,8 @@ namespace Indigo
 
         private void StartListening()
         {
+            if (_listenerConn != null) return;
+
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
 
@@ -255,13 +273,27 @@ namespace Indigo
             cmd.Parameters.AddWithValue("id", _myId);
             await cmd.ExecuteNonQueryAsync();
         }
-
         public async ValueTask DisposeAsync()
         {
             try { await DisconnectAsync(); }
             catch { /* best-effort */ }
 
             _cts?.Dispose();
+        }
+        public async Task LobbyClearAsync()
+        {
+            using var conn = new NpgsqlConnection(_connectionString);
+            await conn.OpenAsync();
+
+            const string sql = "DELETE FROM players";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            await cmd.ExecuteNonQueryAsync();
+
+            using var notifyCmd = new NpgsqlCommand(
+                "SELECT pg_notify('lobby_refresh', '')",
+                conn);
+            await notifyCmd.ExecuteNonQueryAsync();
         }
 
         internal async Task<PlayerInfo[]> GetConnectedPlayersAsync()

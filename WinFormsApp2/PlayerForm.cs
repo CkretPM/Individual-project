@@ -2,43 +2,43 @@
 {
     public partial class PlayerForm : Form
     {
-        public List<string> playerColors { get; set; } = new List<string>();
+        public List<string> playerColors { get; set; } = [];
 
         int numOfPlayers;
         Label[] labels;
         string[] colors;
-        public PlayerForm(int numOfPlayers)
+        public PlayerForm()
         {
             InitializeComponent();
 
-            this.numOfPlayers = numOfPlayers;
+            this.numOfPlayers = 2;
             labels = [playerLabel1, playerLabel2, playerLabel3, playerLabel4];
             colors = ["Blue", "Green", "Red", "Yellow"];
         }
 
         private void Blue_Click(object sender, EventArgs e)
         {
-            chooseColor(0);
+            ChooseColor(0);
         }
         private void Green_Click(object sender, EventArgs e)
         {
-            chooseColor(1);
+            ChooseColor(1);
         }
         private void Red_Click(object sender, EventArgs e)
         {
-            chooseColor(2);
+            ChooseColor(2);
         }
         private void Yellow_Click(object sender, EventArgs e)
         {
-            chooseColor(3);
+            ChooseColor(3);
         }
 
-        public void chooseColor(int num)
+        public void ChooseColor(int num)
         {
             string colorName = colors[num];
             Label label = labels[num];
 
-            if (!label.Visible && playerColors.Count < numOfPlayers)
+            if (!label.Visible) // && playerColors.Count < numOfPlayers)
             {
                 playerColors.Add(colorName);
 
@@ -58,17 +58,19 @@
                         labels[i].Text = "Player " + (playerColors.IndexOf(colors[i]) + 1);
             }
 
+            /*
             if (playerColors.Count == numOfPlayers)
                 doneButton.BackColor = Color.White;
             else
                 doneButton.BackColor = Color.DarkGray;
+            */
         }
-        private void doneButton_Click(object sender, EventArgs e)
+        private void DoneButton_Click(object sender, EventArgs e)
         {
-            if (playerColors.Count == numOfPlayers)
+            //if (playerColors.Count == numOfPlayers)
                 DialogResult = DialogResult.OK;
         }
-        private void cancelButton_Click(object sender, EventArgs e)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
