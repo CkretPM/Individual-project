@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Numerics;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TestProject1")]
+
 namespace Indigo
 {
-    internal class GameObject
+    public class GameObject
     {
         public int id;
         public string name = "Null";
@@ -37,7 +39,7 @@ namespace Indigo
             g.DrawImage(picture, position.X, position.Y, Width, Height);
         }
     }
-    internal class Tile : GameObject
+    public class Tile : GameObject
     {
         public Image originalPic;
         public static new int Height = 125;
@@ -129,7 +131,7 @@ namespace Indigo
         public override string ToString() =>
             $"Tile(id={id}, rotations={numOfRotation}, index={index})";
     }
-    internal class Gem : GameObject
+    public class Gem : GameObject
     {
         public static new int Width = 25;
         public static new int Height = 25;

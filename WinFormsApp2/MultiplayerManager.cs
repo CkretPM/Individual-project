@@ -319,6 +319,35 @@ namespace Indigo
 
             return list.ToArray();
         }
+
+        internal async Task<TurnRecord[]> GetLastSessionHistoryAsync()
+        {
+            using var conn = new NpgsqlConnection(_connectionString);
+            await conn.OpenAsync();
+
+            const string sql =
+                """
+                SELECT t.turn_number, p.player_name, t.tile_id, t.num_of_rotation, t.tile_index
+                FROM   turns t
+                JOIN   players p ON p.player_id = t.player_id
+                ORDER  BY t.turn_number
+                """;
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var list = new List<TurnRecord>();
+            while (await reader.ReadAsync())
+            {
+                list.Add(new TurnRecord(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    new Tile(reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4)),
+                    DateTime.MinValue));
+            }
+
+            return list.ToArray();
+        }
     }
 
     //  Plain-data records (no external dependencies)

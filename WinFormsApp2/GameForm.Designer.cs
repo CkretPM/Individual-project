@@ -34,6 +34,7 @@
             FormTimer = new System.Windows.Forms.Timer(components);
             panel1 = new Panel();
             Board = new DoubleBufferedPanel();
+            reviewLabel = new Label();
             controlsPicture = new PictureBox();
             debugLabel2 = new Label();
             GemTimer = new System.Windows.Forms.Timer(components);
@@ -93,6 +94,7 @@
             // Board
             // 
             Board.BackColor = Color.Navy;
+            Board.Controls.Add(reviewLabel);
             Board.Controls.Add(controlsPicture);
             Board.Location = new Point(406, 26);
             Board.Margin = new Padding(3, 2, 3, 2);
@@ -103,6 +105,18 @@
             Board.MouseDown += BoardMouseDown;
             Board.MouseMove += BoardMouseMove;
             Board.MouseUp += BoardMouseUp;
+            // 
+            // reviewLabel
+            // 
+            reviewLabel.BackColor = Color.Gray;
+            reviewLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            reviewLabel.Location = new Point(472, 0);
+            reviewLabel.Name = "reviewLabel";
+            reviewLabel.Size = new Size(354, 52);
+            reviewLabel.TabIndex = 20;
+            reviewLabel.Text = "Options:";
+            reviewLabel.TextAlign = ContentAlignment.MiddleCenter;
+            reviewLabel.Visible = false;
             // 
             // controlsPicture
             // 
@@ -390,5 +404,6 @@
         private Label debugLabel2;
         private Panel panel1;
         private PictureBox controlsPicture;
+        private Label reviewLabel;
     }
 }

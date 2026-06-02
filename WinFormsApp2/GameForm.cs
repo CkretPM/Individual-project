@@ -7,13 +7,13 @@ namespace Indigo
     public partial class GameForm : Form
     {
         List<Tile> tiles = [];
-        List<Gem> gems = [];                           // lists of main objects
+        List<Gem> gems = [];                                        // lists of main objects
         List<PlayerToken> playerTokens = [];
 
         Vector2[] points;
         List<int> picNumbers = [];
         Tile[] placedTiles;
-        List<Gem> movingGems = [];                     // additional lists of objects
+        List<Gem> movingGems = [];                                  // additional lists of objects
         List<float> playersPoints = [];
         List<string> playerColors = [];
         List<int[]> gatewayOwners = [];
@@ -29,6 +29,7 @@ namespace Indigo
         float distanceFromCtoC = 10000;
         int numOfPlayers = 0;
         float scale = 1;
+        int[] sizesOfObjects = [];
 
         int xPos = 50;
         int boardSeparation = 20;
@@ -45,11 +46,13 @@ namespace Indigo
         bool leftDown = false;
         bool rightDown = false;                                     // mouse buttons
 
-        bool isOnlineGame = false;                                  // online 
+        bool isOnlineGame = false;
         private MultiplayerManager? _mp;
-        private bool _isClosing = false;
+        private bool _isClosing = false;                            // online 
+        private bool _isReviewMode = false;
+        private CancellationTokenSource? _reviewCts;
 
-        public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp = null)
+        public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors = null, MultiplayerManager? mp = null)
         {
             InitializeComponent();
 
@@ -65,6 +68,7 @@ namespace Indigo
             placedTiles = new Tile[3 * rings * rings - 3 * rings + 1];
             scale = percent;
 
+            this.sizesOfObjects = sizesOfObjects;
             SizeAdjustments(sizesOfObjects, percent);
 
             boardImage = new BoardImage();
@@ -670,13 +674,19 @@ namespace Indigo
         }
         private void GameEnd()
         {
-            //TODO
-        }
+            if (_isReviewMode) return;
 
+            using var form = new EndingForm(sizesOfObjects, scale, playerColors, _mp);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                Hide();
+            }
+
+        }
 
         private void OnTurnReceived(Tile tile, string fromPlayerPrefix)
         {
-            Invoke(() => ApplyTurn(tile, fromPlayerPrefix));
+            Invoke(() => ApplyTurn(tile));
         }
         private void OnGameClosed()
         {
@@ -688,7 +698,7 @@ namespace Indigo
             });
         }
 
-        private void ApplyTurn(Tile transferTile, string fromPlayerPrefix)
+        private void ApplyTurn(Tile transferTile)
         {
             var realTile = tiles[transferTile.id];
 
@@ -705,10 +715,6 @@ namespace Indigo
 
             Snap(realTile);
 
-            // To do with
-            // tile.Id, tile.NumOfRotation, tile.Index
-            // e.g. placedTiles[tile.Index] = tile;
-
             BuildStaticLayer();
             Board.Invalidate();
         }
@@ -722,6 +728,8 @@ namespace Indigo
 
                 _mp.OnTurnReceived -= OnTurnReceived;
                 _mp.OnGameClosed -= OnGameClosed;
+
+                _reviewCts?.Cancel();
 
                 Task.Run(async () =>
                 {
@@ -1127,23 +1135,21 @@ namespace Indigo
             if (player0.Image != null)
                 return;
 
-            using (var form = new PlayerForm())
+            using var form = new PlayerForm();
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    numOfPlayers = form.playerColors.Count;
-                    MakeTokens(form.playerColors);
+                numOfPlayers = form.playerColors.Count;
+                MakeTokens(form.playerColors);
 
-                    MakeScoreBoard();
+                MakeScoreBoard();
 
-                    foreach (var gem in gems.Where(g => g.onTile >= 43))
-                        ScoreUpdate(gem);
+                foreach (var gem in gems.Where(g => g.onTile >= 43))
+                    ScoreUpdate(gem);
 
-                    playersButton.BackColor = Color.DarkGray;
+                playersButton.BackColor = Color.DarkGray;
 
-                    BuildStaticLayer();
-                    Board.Invalidate();
-                }
+                BuildStaticLayer();
+                Board.Invalidate();
             }
         }
         private void RulesButton_Click(object sender, EventArgs e)
@@ -1177,7 +1183,7 @@ namespace Indigo
             playerScore1.Visible = !debugMode;
             
 
-            if (numOfPlayers > 3)
+            if (numOfPlayers > 2)
             {
                 player2.Visible = !debugMode;
                 playerScore2.Visible = !debugMode;
@@ -1206,6 +1212,44 @@ namespace Indigo
         private void BackButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+        public async Task StartReviewAsync(MultiplayerManager mp, int intervalMs = 5000)
+        {
+            _isReviewMode = true;
+            _reviewCts = new CancellationTokenSource();
+            var ct = _reviewCts.Token;
+
+            TurnRecord[] history;
+            try
+            {
+                history = await mp.GetLastSessionHistoryAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load history:\n{ex.Message}");
+                return;
+            }
+
+            // Apply turns one by one with a delay between each
+            _ = Task.Run(async () =>
+            {
+                foreach (var record in history)
+                {
+                    if (ct.IsCancellationRequested) break;
+
+                    Invoke(() =>
+                    {
+                        ApplyTurn(record.Tile);
+                        reviewLabel.Text = $"Turn {record.TurnNumber} — {record.PlayerName}";
+                    });
+
+                    try { await Task.Delay(intervalMs, ct); }
+                    catch (TaskCanceledException) { break; }
+                }
+
+                if (!ct.IsCancellationRequested)
+                    Invoke(() => reviewLabel.Text = "Review complete.");
+            }, ct);
         }
     }
 }
