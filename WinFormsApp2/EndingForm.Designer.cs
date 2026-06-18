@@ -69,7 +69,7 @@
             resultLabel.Name = "resultLabel";
             resultLabel.Size = new Size(346, 127);
             resultLabel.TabIndex = 44;
-            resultLabel.Text = "You've ";
+            resultLabel.Text = "You ";
             resultLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // EndingForm
