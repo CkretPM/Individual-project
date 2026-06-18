@@ -110,10 +110,10 @@
             // 
             controlsPicture.BackColor = Color.Transparent;
             controlsPicture.Image = Properties.Resources.Controls;
-            controlsPicture.Location = new Point(16, 354);
+            controlsPicture.Location = new Point(27, 28);
             controlsPicture.Margin = new Padding(3, 2, 3, 2);
             controlsPicture.Name = "controlsPicture";
-            controlsPicture.Size = new Size(426, 434);
+            controlsPicture.Size = new Size(426, 666);
             controlsPicture.SizeMode = PictureBoxSizeMode.Zoom;
             controlsPicture.TabIndex = 1;
             controlsPicture.TabStop = false;
