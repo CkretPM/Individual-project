@@ -1,4 +1,6 @@
-﻿namespace Indigo
+﻿using System.Diagnostics;
+
+namespace Indigo
 {
     public partial class MultiplayerForm : Form
     {
@@ -102,24 +104,42 @@
                 _ = RefreshLobbyAsync();
             });
         }
-        private async void OnGameStart()
+        private void OnGameStart()
         {
             if (_mp is null) return;
 
-            colors.Clear();
-            var players = await _mp.GetConnectedPlayersAsync();
-
-            foreach (var p in players)
-                colors.Add(p.Color);
-
-            Invoke(() =>
+            Task.Run(async () =>
             {
-                var gameForm = new GameForm(sizesOfObjects, percent - 0.1f, colors, _mp);
-                gameForm.FormClosed += (s, args) => this.Show();
-                gameForm.Show();
-                this.Hide();
+                colors.Clear();
+                int myPlayerIndex = await _mp.GetMyPlayerIndexAsync();
+                var players = await _mp.GetConnectedPlayersAsync();
 
-                connectionButton.Enabled = true;
+                foreach (var p in players)
+                    colors.Add(p.Color);
+
+
+                Invoke(() =>
+                {
+                    if (colors.Distinct().Count() != colors.Count)
+                    {
+                        statusLabel.Text = "Someone has same color - close window to change color";
+                        return;
+                    }
+                    if (colors.Count > 4)
+                    {
+                        statusLabel.Text = "Too much players (max 4) - close window to exit the game";
+                        return;
+                    }
+
+                    var gameForm = new GameForm(sizesOfObjects, percent - 0.1f, colors, _mp, myPlayerIndex);
+                    _mp.SetMyPlayerIndex(myPlayerIndex);
+
+                    gameForm.FormClosed += (s, args) => this.Show();
+                    gameForm.Show();
+                    this.Hide();
+
+                    connectionButton.Enabled = true;
+                });
             });
         }
         private void OnLobbyRefresh()
@@ -136,8 +156,11 @@
             {
                 Show();
                 statusLabel.Text = "Host closed the game";
+
                 readyButton.Enabled = true;
-                readyButton.Text = "Ready";
+                readyButton.Text = "Ready?";
+                readyButton.BackColor = Color.Silver;
+
                 _ = RefreshLobbyAsync();
             });
         }

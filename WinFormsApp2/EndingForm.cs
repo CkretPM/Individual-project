@@ -8,37 +8,54 @@
         private readonly MultiplayerManager? _mp;
 
         // Pass these in from wherever you create WinLoseForm
-        public EndingForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp)
+        public EndingForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp, bool youWon)
         {
             InitializeComponent();
+
             _sizesOfObjects = sizesOfObjects;
             _percent = percent;
             _playerColors = playerColors;
             _mp = mp;
+
+            if (youWon)
+            {
+                resultLabel.Text += "won!";
+                resultLabel.BackColor = Color.Green;
+            }
+            else
+                resultLabel.Text += "lost";
         }
 
         private void ReviewButton_Click(object sender, EventArgs e)
         {
             if (_mp is null)
             {
-                MessageBox.Show("No multiplayer session to review.");
+                MessageBox.Show(
+                    "No multiplayer session available to review.",
+                    "Review unavailable",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
-            // Open GameForm in review mode — no mp passed so no live multiplayer
+            var gameForm = Application.OpenForms.OfType<GameForm>().FirstOrDefault();
+            gameForm?.Hide();
+            this.Hide();
+
             var reviewForm = new GameForm(_sizesOfObjects, _percent, _playerColors);
 
-            reviewForm.FormClosed += (s, args) => this.Show();
-            reviewForm.Show();
-            Hide();
+            reviewForm.FormClosed += (s, args) =>
+            {
+                gameForm?.Show();
+                this.Show();
+            };
 
-            // Start the replay after the form is fully shown
+            reviewForm.Show();
             reviewForm.Shown += async (s, args) =>
             {
-                await reviewForm.StartReviewAsync(_mp, intervalMs: 5000);
+                await reviewForm.StartReviewAsync(_mp, intervalMs: 1000);
             };
         }
-
         private void BackButton_Click(object sender, EventArgs e)
         {
             Close();

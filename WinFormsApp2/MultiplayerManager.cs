@@ -11,6 +11,7 @@ namespace Indigo
         private string _myName = string.Empty;
         private string _myColor = "White";
         private int _currentSessionId = -1;
+        private int _myPlayerIndex = -1;
         private int _turnCounter = 0;
 
         private NpgsqlConnection? _listenerConn;
@@ -22,7 +23,7 @@ namespace Indigo
         public event Action? OnLobbyRefresh;
         public event Action? OnGameClosed;
 
-        internal event Action<Tile, string>? OnTurnReceived;
+        internal event Action<Tile, int>? OnTurnReceived;
         public event Action<Exception>? OnError;
 
         public MultiplayerManager(string connectionString)
@@ -30,6 +31,7 @@ namespace Indigo
             _connectionString = connectionString;
         }
 
+        public void SetMyPlayerIndex(int index) => _myPlayerIndex = index;
         public async Task<bool> RegisterPlayerAsync(string color = "White")
         {
             try
@@ -97,14 +99,15 @@ namespace Indigo
             const string sql =
                 """
                 INSERT INTO turns
-                    (session_id, player_id, tile_id, num_of_rotation, tile_index, turn_number)
+                    (session_id, player_id, player_index, tile_id, num_of_rotation, tile_index, turn_number)
                 VALUES
-                    (@session, @player, @tile, @rot, @idx, @turn)
+                    (@session, @player, @index, @tile, @rot, @idx, @turn)
                 """;
 
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("session", _currentSessionId);
             cmd.Parameters.AddWithValue("player", _myId);
+            cmd.Parameters.AddWithValue("index", _myPlayerIndex);
             cmd.Parameters.AddWithValue("tile", tile.id);
             cmd.Parameters.AddWithValue("rot", tile.numOfRotation);
             cmd.Parameters.AddWithValue("idx", tile.index);
@@ -218,24 +221,21 @@ namespace Indigo
 
         private void HandleNewTurn(string payload)
         {
-            // Payload format: "tileId:rotations:placementIndex:playerIdShort"
-            // (defined in the SQL trigger)
+            // Payload format: "tileId:rotations:placementIndex:playerIndex"
             var parts = payload.Split(':');
             if (parts.Length < 4) return;
 
             if (!int.TryParse(parts[0], out int tileId)) return;
             if (!int.TryParse(parts[1], out int rotations)) return;
             if (!int.TryParse(parts[2], out int placementIdx)) return;
+            if (!int.TryParse(parts[3], out int playerIndex)) return;
 
-            string senderPrefix = parts[3];
-
-            // Ignore turns that this instance sent
-            if (_myId.ToString().StartsWith(senderPrefix, StringComparison.OrdinalIgnoreCase))
-                return;
+            // Ignore own turns using player index
+            if (playerIndex == _myPlayerIndex) return;
 
             var tile = new Tile(tileId, rotations, placementIdx);
 
-            OnTurnReceived?.Invoke(tile, senderPrefix);
+            OnTurnReceived?.Invoke(tile, playerIndex);
         }
 
         public async Task NotifyGameClosedAsync()
@@ -319,6 +319,24 @@ namespace Indigo
 
             return list.ToArray();
         }
+        public async Task<int> GetMyPlayerIndexAsync()
+        {
+            using var conn = new NpgsqlConnection(_connectionString);
+            await conn.OpenAsync();
+
+            // Returns 0-based position this player joined in (join order = player index)
+            const string sql =
+                """
+                SELECT COUNT(*) FROM players
+                WHERE joined_at < (SELECT joined_at FROM players WHERE player_id = @id)
+                """;
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", _myId);
+
+            var result = await cmd.ExecuteScalarAsync();
+            return Convert.ToInt32(result);
+        }
 
         internal async Task<TurnRecord[]> GetLastSessionHistoryAsync()
         {
@@ -327,7 +345,13 @@ namespace Indigo
 
             const string sql =
                 """
-                SELECT t.turn_number, p.player_name, t.tile_id, t.num_of_rotation, t.tile_index
+                SELECT t.turn_number,
+                       p.player_name,
+                       (SELECT COUNT(*) FROM players p2
+                        WHERE p2.joined_at < p.joined_at) AS player_index,
+                       t.tile_id,
+                       t.num_of_rotation,
+                       t.tile_index
                 FROM   turns t
                 JOIN   players p ON p.player_id = t.player_id
                 ORDER  BY t.turn_number
@@ -342,7 +366,8 @@ namespace Indigo
                 list.Add(new TurnRecord(
                     reader.GetInt32(0),
                     reader.GetString(1),
-                    new Tile(reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4)),
+                    Convert.ToInt32(reader.GetInt64(2)),
+                    new Tile(reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5)),
                     DateTime.MinValue));
             }
 
@@ -350,7 +375,7 @@ namespace Indigo
         }
     }
 
-    //  Plain-data records (no external dependencies)
+
     internal sealed record PlayerInfo(
         Guid PlayerId,
         string Name,
@@ -360,6 +385,7 @@ namespace Indigo
     internal sealed record TurnRecord(
         int TurnNumber,
         string PlayerName,
+        int PlayerIndex,
         Tile Tile,
         DateTime PlayedAt);
 

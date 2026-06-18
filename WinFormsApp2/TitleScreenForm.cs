@@ -4,7 +4,7 @@ namespace Indigo
 {
     public partial class TitleScreenForm : Form
     {
-        List<string> colors = [];
+        readonly List<string> colors = [];
         float percent = 1;
 
         int[] sizesOfObjects = [
@@ -17,15 +17,6 @@ namespace Indigo
             PlayerToken.Width,
             PlayerToken.Height
         ];
-
-        private readonly string _connectionString =
-            "Host=localhost;" +
-            "Port=5432;" +
-            "Database=gamedb;" +
-            "Username=gameuser;" +
-            "Password=gamepass;";
-
-        private MultiplayerManager? _mp;
 
         private bool _isClosing = false;
         string videoLink = "https://www.youtube.com/watch?v=LJwy7qXWuNI&t=38s";

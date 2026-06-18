@@ -6,31 +6,31 @@ namespace Indigo
 {
     public partial class GameForm : Form
     {
-        List<Tile> tiles = [];
-        List<Gem> gems = [];                                        // lists of main objects
-        List<PlayerToken> playerTokens = [];
+        readonly List<Tile> tiles = [];
+        readonly List<Gem> gems = [];                                        // lists of main objects
+        readonly List<PlayerToken> playerTokens = [];
 
-        Vector2[] points;
-        List<int> picNumbers = [];
-        Tile[] placedTiles;
-        List<Gem> movingGems = [];                                  // additional lists of objects
-        List<float> playersPoints = [];
+        readonly Vector2[] points;
+        readonly List<int> picNumbers = [];
+        readonly Tile[] placedTiles;
+        readonly List<Gem> movingGems = [];                                  // additional lists of objects
+        readonly List<float> playersPoints = [];
         List<string> playerColors = [];
         List<int[]> gatewayOwners = [];
 
-        BoardImage boardImage;
+        readonly BoardImage boardImage;
         Tile selectedTile;                                          // important objects
         Movement m1 = new Movement();
         Bitmap staticLayer;
 
-        int rings = 5;
-        int totalTiles = 0;
-        int totalGems = 12;                                         // game parameters
-        float distanceFromCtoC = 10000;
+        readonly int rings = 5;
+        readonly int totalGems = 12;                                         // game parameters
+        readonly float distanceFromCtoC = 10000;
         int numOfPlayers = 0;
         float scale = 1;
         int[] sizesOfObjects = [];
 
+        int totalTiles = 0;
         int xPos = 50;
         int boardSeparation = 20;
         int tileNumber = -1;                                        // tile creation and movement visuals
@@ -46,25 +46,30 @@ namespace Indigo
         bool leftDown = false;
         bool rightDown = false;                                     // mouse buttons
 
-        bool isOnlineGame = false;
         private MultiplayerManager? _mp;
+        private CancellationTokenSource? _reviewCts;
         private bool _isClosing = false;                            // online 
         private bool _isReviewMode = false;
-        private CancellationTokenSource? _reviewCts;
+        private bool _isOnlineGame = false;
+        private int _myPlayerIndex;
+        private int _availableTileId;
 
-        public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors = null, MultiplayerManager? mp = null)
+        public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors = null, MultiplayerManager? mp = null, int _myPlayerIndex = -1)
         {
             InitializeComponent();
 
             _mp = mp;
 
-            // Re-wire the turn event here, where the game logic lives
             if (_mp is not null)
             {
                 _mp.OnTurnReceived += OnTurnReceived;
                 _mp.OnGameClosed += OnGameClosed;
+
+                _isOnlineGame = true;
             }
-            
+            this._myPlayerIndex = _myPlayerIndex;
+            _mp?.SetMyPlayerIndex(_myPlayerIndex);
+
             placedTiles = new Tile[3 * rings * rings - 3 * rings + 1];
             scale = percent;
 
@@ -85,15 +90,20 @@ namespace Indigo
 
             SetUpApp();
 
+            if (_isOnlineGame && _myPlayerIndex == 0)
+                FlipNewTile();
+
             if (playerColors is not null)
             {
+                playersButton.Visible = false;
+
                 this.playerColors = playerColors;
 
                 numOfPlayers = playerColors.Count;
                 MakeTokens(playerColors);
 
                 MakeScoreBoard();
-            }
+            }              
 
             BuildStaticLayer();
         }
@@ -243,7 +253,7 @@ namespace Indigo
             else
             {
                 int spaceBetweenTypes = 100;        //  215 = magic number
-                if (!isOnlineGame)
+                if (!_isOnlineGame)
                 {
                     newTile.picture = newTile.originalPic;
                     spaceBetweenTypes = 215;
@@ -338,6 +348,12 @@ namespace Indigo
             PictureBox[] playerPBs = [player0, player1, player2, player3];
             Label[] playerLabels = [playerScore0, playerScore1, playerScore2, playerScore3];
 
+            if (_myPlayerIndex != -1)
+            {
+                playerPBs[_myPlayerIndex].BackColor = Color.Green;
+                playerLabels[_myPlayerIndex].BackColor = Color.Green;
+            }
+            
             int[] playerNum = numOfPlayers switch
             {
                 4 => [0, 1, 10, 11],
@@ -469,7 +485,7 @@ namespace Indigo
 
             return realNeighbors;
         }
-        private void Snap(Tile tile)
+        private void Snap(Tile tile, bool sendTurnToOthers)
         {
             Vector2 pos = new Vector2(tile.position.X + Tile.Width / 2, tile.position.Y + Tile.Height / 2);
             int index = GetClosestIndex(pos);
@@ -490,8 +506,8 @@ namespace Indigo
             tile.position = new Point(newX, newY);
             placedTiles[index] = tile;
 
-            //Send turn to other players here
-            if (_mp is not null)
+            
+            if (_mp is not null && sendTurnToOthers)    //_isOnlineGame
                 _ = _mp.SendTurnAsync(tile);
 
             List<int> neighborIndexies = FindNeighbors(new_pos);
@@ -676,17 +692,35 @@ namespace Indigo
         {
             if (_isReviewMode) return;
 
-            using var form = new EndingForm(sizesOfObjects, scale, playerColors, _mp);
-            if (form.ShowDialog() == DialogResult.OK)
+            if (_mp is null)   //!_isOnlineGame
             {
-                Hide();
-            }
+                float maxPoints = playersPoints.Max();
+                int winnersCount = playersPoints.Count(p => p == maxPoints);
 
+                reviewLabel.Visible = true;
+
+                if (winnersCount > 1)
+                    reviewLabel.Text = "There is a tie!";
+                else
+                {
+                    int indexOfWinner = playersPoints.FindIndex(p => p == maxPoints);
+                    reviewLabel.Text = "Player " + (indexOfWinner + 1) + " won!";
+                }
+            }
+            else
+            {
+                bool youWon = false;
+                if (playersPoints[_myPlayerIndex] == playersPoints.Max())
+                    youWon = true;
+
+                var form = new EndingForm(sizesOfObjects, scale, playerColors, _mp, youWon);
+                form.Show();
+            }
         }
 
-        private void OnTurnReceived(Tile tile, string fromPlayerPrefix)
+        private void OnTurnReceived(Tile tile, int fromPlayerIndex)
         {
-            Invoke(() => ApplyTurn(tile));
+            Invoke(() => ApplyTurn(tile, fromPlayerIndex));
         }
         private void OnGameClosed()
         {
@@ -698,31 +732,65 @@ namespace Indigo
             });
         }
 
-        private void ApplyTurn(Tile transferTile)
+        private void FlipNewTile()
+        {
+            Random rnd = new();
+            bool valid = false;
+
+            int tileNumber = rnd.Next(7, totalTiles);
+            int origNumber = tileNumber;
+
+            do
+            {
+                if (tiles[tileNumber].index == -1)
+                    valid = true;
+                else
+                    tileNumber = (tileNumber + 1) % totalTiles;
+            } while (!valid && tileNumber != origNumber);
+
+            if (tiles[tileNumber].index != -1)
+                return;
+
+            _availableTileId = tiles[tileNumber].id;
+            tiles[tileNumber].picture = tiles[tileNumber].originalPic;
+
+            int realVsHitboxDiff = tiles[tileNumber].rect.Y - tiles[tileNumber].position.Y;
+
+            tiles[tileNumber].position.Y = (int)(700 * scale);
+            tiles[tileNumber].rect.Y = tiles[tileNumber].position.Y + realVsHitboxDiff;
+
+            BuildStaticLayer();
+            Board.Invalidate();
+        }
+        private void ApplyTurn(Tile transferTile, int fromPlayerIndex)
         {
             var realTile = tiles[transferTile.id];
 
-            if (realTile.index != -1)
-                return;
+            if (realTile.index != -1 || fromPlayerIndex == _myPlayerIndex) return;
 
             realTile.position.X = (int)points[transferTile.index].X - Tile.Width / 2;
             realTile.position.Y = (int)points[transferTile.index].Y - Tile.Height / 2;
+            realTile.picture = realTile.originalPic;
 
             int timeToTurn = transferTile.numOfRotation;
 
             for (int i = 0; i < timeToTurn; i++)
                 RotateTile(realTile, true);
 
-            Snap(realTile);
+            bool sendTurnToOthers = false;
+            Snap(realTile, sendTurnToOthers);
 
             BuildStaticLayer();
             Board.Invalidate();
+
+            if ((fromPlayerIndex + 1) % numOfPlayers == _myPlayerIndex)
+                FlipNewTile();
         }
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_isClosing) return;
-
-            if (_mp is not null)
+            
+            if (_mp is not null)    //_isOnlineGame
             {
                 e.Cancel = true;
 
@@ -777,7 +845,7 @@ namespace Indigo
         }
         private void BoardMouseDown(object sender, MouseEventArgs e)
         {
-            if (hideMode)
+            if (hideMode || _isReviewMode)
                 return;
 
             if (e.Button == MouseButtons.Left)
@@ -795,6 +863,9 @@ namespace Indigo
                 foreach (Tile newTile in tiles)
                     if (newTile.rect.Contains(mousePosition) && newTile.index == -1)
                     {
+                        if (_isOnlineGame && newTile.id != _availableTileId)
+                            return;
+
                         selectedTile = newTile;
                         newTile.active = true;
 
@@ -827,7 +898,8 @@ namespace Indigo
 
             if (!leftDown && selectedTile != null)
             {
-                Snap(selectedTile);
+                bool sendTurnToOthers = true;
+                Snap(selectedTile, sendTurnToOthers);
                 temp = selectedTile;
 
                 selectedTile.active = false;
@@ -962,6 +1034,11 @@ namespace Indigo
                             gems.Remove(gem);
                             movingGems.Remove(anotherGem);
                             movingGems.Remove(gem);
+
+                            gemsLeft -= 2;
+                            if (gemsLeft == 0)
+                                GameEnd();
+
                             return;
                         }
 
@@ -979,31 +1056,6 @@ namespace Indigo
 
             Invalidate();
         }
-
-        private void Panel1_Paint(object sender, PaintEventArgs e)
-        {
-            var graphics = e.Graphics;
-
-            //Get the middle of the panel
-            var x_0 = panel1.Width / 2;
-            var y_0 = panel1.Height / 2;
-
-            var shape = new PointF[6];
-
-            var r = 70; //70 px radius 
-
-            //Create 6 points
-            for (int a = 0; a < 6; a++)
-            {
-                shape[a] = new PointF(
-                    x_0 + r * (float)Math.Sin(a * 60 * Math.PI / 180f),
-                    y_0 + r * (float)Math.Cos(a * 60 * Math.PI / 180f)
-                    );
-            }
-
-
-            graphics.DrawPolygon(Pens.Red, shape);
-        }       //unused
         private void BuildStaticLayer()
         {
             staticLayer?.Dispose();
@@ -1172,7 +1224,6 @@ namespace Indigo
 
             debugLabel1.Visible = debugMode;
             debugLabel2.Visible = debugMode;
-            panel1.Visible = debugMode;
 
             label2.Visible = !debugMode;
             controlsLabel.Visible = !debugMode;
@@ -1181,9 +1232,8 @@ namespace Indigo
             player1.Visible = !debugMode;
             playerScore0.Visible = !debugMode;
             playerScore1.Visible = !debugMode;
-            
 
-            if (numOfPlayers > 2)
+            if (numOfPlayers >= 3)
             {
                 player2.Visible = !debugMode;
                 playerScore2.Visible = !debugMode;
@@ -1213,8 +1263,11 @@ namespace Indigo
         {
             Close();
         }
-        public async Task StartReviewAsync(MultiplayerManager mp, int intervalMs = 5000)
+        public async Task StartReviewAsync(MultiplayerManager mp, int intervalMs = 1000)
         {
+            backButton.Visible = false;
+            reviewLabel.Visible = true;
+
             _isReviewMode = true;
             _reviewCts = new CancellationTokenSource();
             var ct = _reviewCts.Token;
@@ -1239,12 +1292,14 @@ namespace Indigo
 
                     Invoke(() =>
                     {
-                        ApplyTurn(record.Tile);
-                        reviewLabel.Text = $"Turn {record.TurnNumber} — {record.PlayerName}";
+                        ApplyTurn(record.Tile, record.PlayerIndex);
+                        reviewLabel.Text = $"Turn {record.TurnNumber} — player {record.PlayerIndex + 1} ";
                     });
 
                     try { await Task.Delay(intervalMs, ct); }
                     catch (TaskCanceledException) { break; }
+
+                    intervalMs = (int)(intervalMs * 0.99);
                 }
 
                 if (!ct.IsCancellationRequested)

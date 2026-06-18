@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             debugLabel1 = new Label();
             FormTimer = new System.Windows.Forms.Timer(components);
-            panel1 = new Panel();
             Board = new DoubleBufferedPanel();
             reviewLabel = new Label();
             controlsPicture = new PictureBox();
@@ -80,17 +79,6 @@
             FormTimer.Interval = 20;
             FormTimer.Tick += FormTimerEvent;
             // 
-            // panel1
-            // 
-            panel1.BackColor = SystemColors.ControlDarkDark;
-            panel1.Location = new Point(230, 1034);
-            panel1.Margin = new Padding(3, 2, 3, 2);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(147, 206);
-            panel1.TabIndex = 1;
-            panel1.Visible = false;
-            panel1.Paint += Panel1_Paint;
-            // 
             // Board
             // 
             Board.BackColor = Color.Navy;
@@ -122,7 +110,7 @@
             // 
             controlsPicture.BackColor = Color.Transparent;
             controlsPicture.Image = Properties.Resources.Controls;
-            controlsPicture.Location = new Point(6, 454);
+            controlsPicture.Location = new Point(16, 354);
             controlsPicture.Margin = new Padding(3, 2, 3, 2);
             controlsPicture.Name = "controlsPicture";
             controlsPicture.Size = new Size(426, 434);
@@ -345,7 +333,6 @@
             Controls.Add(rulesButton);
             Controls.Add(player3);
             Controls.Add(playerScore2);
-            Controls.Add(panel1);
             Controls.Add(player1);
             Controls.Add(player2);
             Controls.Add(playerScore1);
@@ -402,7 +389,6 @@
         private Label playerScore3;
         private Label debugLabel1;
         private Label debugLabel2;
-        private Panel panel1;
         private PictureBox controlsPicture;
         private Label reviewLabel;
     }

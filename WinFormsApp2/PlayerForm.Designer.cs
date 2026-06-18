@@ -47,11 +47,10 @@
             // 
             // doneButton
             // 
-            doneButton.BackColor = Color.DarkGray;
-            doneButton.Location = new Point(650, 506);
-            doneButton.Margin = new Padding(4);
+            doneButton.BackColor = Color.White;
+            doneButton.Location = new Point(520, 405);
             doneButton.Name = "doneButton";
-            doneButton.Size = new Size(152, 41);
+            doneButton.Size = new Size(122, 33);
             doneButton.TabIndex = 0;
             doneButton.Text = "Done";
             doneButton.UseVisualStyleBackColor = false;
@@ -60,10 +59,9 @@
             // Blue
             // 
             Blue.Image = Properties.Resources.Blue_point;
-            Blue.Location = new Point(164, 175);
-            Blue.Margin = new Padding(4);
+            Blue.Location = new Point(131, 140);
             Blue.Name = "Blue";
-            Blue.Size = new Size(129, 150);
+            Blue.Size = new Size(103, 120);
             Blue.SizeMode = PictureBoxSizeMode.Zoom;
             Blue.TabIndex = 9;
             Blue.TabStop = false;
@@ -72,10 +70,9 @@
             // Green
             // 
             Green.Image = Properties.Resources.Green_point;
-            Green.Location = new Point(350, 175);
-            Green.Margin = new Padding(4);
+            Green.Location = new Point(280, 140);
             Green.Name = "Green";
-            Green.Size = new Size(129, 150);
+            Green.Size = new Size(103, 120);
             Green.SizeMode = PictureBoxSizeMode.Zoom;
             Green.TabIndex = 10;
             Green.TabStop = false;
@@ -84,10 +81,9 @@
             // Red
             // 
             Red.Image = Properties.Resources.Red_point;
-            Red.Location = new Point(536, 175);
-            Red.Margin = new Padding(4);
+            Red.Location = new Point(429, 140);
             Red.Name = "Red";
-            Red.Size = new Size(129, 150);
+            Red.Size = new Size(103, 120);
             Red.SizeMode = PictureBoxSizeMode.Zoom;
             Red.TabIndex = 11;
             Red.TabStop = false;
@@ -96,10 +92,9 @@
             // Yellow
             // 
             Yellow.Image = Properties.Resources.Yellow_point;
-            Yellow.Location = new Point(721, 175);
-            Yellow.Margin = new Padding(4);
+            Yellow.Location = new Point(577, 140);
             Yellow.Name = "Yellow";
-            Yellow.Size = new Size(129, 150);
+            Yellow.Size = new Size(103, 120);
             Yellow.SizeMode = PictureBoxSizeMode.Zoom;
             Yellow.TabIndex = 12;
             Yellow.TabStop = false;
@@ -109,10 +104,9 @@
             // 
             label1.BackColor = Color.Gray;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(269, 36);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(215, 29);
             label1.Name = "label1";
-            label1.Size = new Size(480, 65);
+            label1.Size = new Size(384, 52);
             label1.TabIndex = 13;
             label1.Text = "Choose colors for players";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -121,10 +115,9 @@
             // 
             playerLabel1.BackColor = Color.Gray;
             playerLabel1.Font = new Font("Segoe UI", 10F);
-            playerLabel1.Location = new Point(162, 344);
-            playerLabel1.Margin = new Padding(4, 0, 4, 0);
+            playerLabel1.Location = new Point(130, 275);
             playerLabel1.Name = "playerLabel1";
-            playerLabel1.Size = new Size(129, 34);
+            playerLabel1.Size = new Size(103, 27);
             playerLabel1.TabIndex = 14;
             playerLabel1.TextAlign = ContentAlignment.MiddleCenter;
             playerLabel1.Visible = false;
@@ -133,10 +126,9 @@
             // 
             playerLabel2.BackColor = Color.Gray;
             playerLabel2.Font = new Font("Segoe UI", 10F);
-            playerLabel2.Location = new Point(348, 344);
-            playerLabel2.Margin = new Padding(4, 0, 4, 0);
+            playerLabel2.Location = new Point(278, 275);
             playerLabel2.Name = "playerLabel2";
-            playerLabel2.Size = new Size(129, 34);
+            playerLabel2.Size = new Size(103, 27);
             playerLabel2.TabIndex = 15;
             playerLabel2.TextAlign = ContentAlignment.MiddleCenter;
             playerLabel2.Visible = false;
@@ -145,10 +137,9 @@
             // 
             playerLabel3.BackColor = Color.Gray;
             playerLabel3.Font = new Font("Segoe UI", 10F);
-            playerLabel3.Location = new Point(534, 344);
-            playerLabel3.Margin = new Padding(4, 0, 4, 0);
+            playerLabel3.Location = new Point(427, 275);
             playerLabel3.Name = "playerLabel3";
-            playerLabel3.Size = new Size(129, 34);
+            playerLabel3.Size = new Size(103, 27);
             playerLabel3.TabIndex = 16;
             playerLabel3.TextAlign = ContentAlignment.MiddleCenter;
             playerLabel3.Visible = false;
@@ -157,20 +148,18 @@
             // 
             playerLabel4.BackColor = Color.Gray;
             playerLabel4.Font = new Font("Segoe UI", 10F);
-            playerLabel4.Location = new Point(721, 344);
-            playerLabel4.Margin = new Padding(4, 0, 4, 0);
+            playerLabel4.Location = new Point(577, 275);
             playerLabel4.Name = "playerLabel4";
-            playerLabel4.Size = new Size(129, 34);
+            playerLabel4.Size = new Size(103, 27);
             playerLabel4.TabIndex = 17;
             playerLabel4.TextAlign = ContentAlignment.MiddleCenter;
             playerLabel4.Visible = false;
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(830, 506);
-            cancelButton.Margin = new Padding(4);
+            cancelButton.Location = new Point(664, 405);
             cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(152, 41);
+            cancelButton.Size = new Size(122, 33);
             cancelButton.TabIndex = 18;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
@@ -178,10 +167,10 @@
             // 
             // PlayerForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
-            ClientSize = new Size(1000, 564);
+            ClientSize = new Size(800, 451);
             Controls.Add(cancelButton);
             Controls.Add(playerLabel4);
             Controls.Add(playerLabel3);
@@ -193,7 +182,6 @@
             Controls.Add(Green);
             Controls.Add(Blue);
             Controls.Add(doneButton);
-            Margin = new Padding(4);
             Name = "PlayerForm";
             Text = "PlayerForm";
             ((System.ComponentModel.ISupportInitialize)Blue).EndInit();

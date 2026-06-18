@@ -30,7 +30,7 @@
         {
             backButton = new Button();
             reviewButton = new Button();
-            label5 = new Label();
+            resultLabel = new Label();
             SuspendLayout();
             // 
             // backButton
@@ -43,7 +43,7 @@
             backButton.Name = "backButton";
             backButton.Size = new Size(182, 80);
             backButton.TabIndex = 42;
-            backButton.Text = "Back to the \r\ntitle screen";
+            backButton.Text = "Back to the \r\ngame board";
             backButton.UseVisualStyleBackColor = false;
             backButton.Click += BackButton_Click;
             // 
@@ -61,16 +61,16 @@
             reviewButton.UseVisualStyleBackColor = false;
             reviewButton.Click += ReviewButton_Click;
             // 
-            // label5
+            // resultLabel
             // 
-            label5.BackColor = Color.Gray;
-            label5.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label5.Location = new Point(284, 89);
-            label5.Name = "label5";
-            label5.Size = new Size(234, 127);
-            label5.TabIndex = 44;
-            label5.Text = "You";
-            label5.TextAlign = ContentAlignment.MiddleCenter;
+            resultLabel.BackColor = Color.Gray;
+            resultLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            resultLabel.Location = new Point(284, 89);
+            resultLabel.Name = "resultLabel";
+            resultLabel.Size = new Size(234, 127);
+            resultLabel.TabIndex = 44;
+            resultLabel.Text = "You've ";
+            resultLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // EndingForm
             // 
@@ -78,7 +78,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(800, 450);
-            Controls.Add(label5);
+            Controls.Add(resultLabel);
             Controls.Add(reviewButton);
             Controls.Add(backButton);
             Name = "EndingForm";
@@ -92,6 +92,6 @@
 
         private Button backButton;
         private Button reviewButton;
-        private Label label5;
+        private Label resultLabel;
     }
 }

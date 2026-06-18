@@ -4,14 +4,12 @@
     {
         public List<string> playerColors { get; set; } = [];
 
-        int numOfPlayers;
-        Label[] labels;
-        string[] colors;
+        readonly Label[] labels;
+        readonly string[] colors;
         public PlayerForm()
         {
             InitializeComponent();
 
-            this.numOfPlayers = 2;
             labels = [playerLabel1, playerLabel2, playerLabel3, playerLabel4];
             colors = ["Blue", "Green", "Red", "Yellow"];
         }
@@ -38,7 +36,7 @@
             string colorName = colors[num];
             Label label = labels[num];
 
-            if (!label.Visible) // && playerColors.Count < numOfPlayers)
+            if (!label.Visible)
             {
                 playerColors.Add(colorName);
 
@@ -57,18 +55,10 @@
                     if (labels[i].Visible)
                         labels[i].Text = "Player " + (playerColors.IndexOf(colors[i]) + 1);
             }
-
-            /*
-            if (playerColors.Count == numOfPlayers)
-                doneButton.BackColor = Color.White;
-            else
-                doneButton.BackColor = Color.DarkGray;
-            */
         }
         private void DoneButton_Click(object sender, EventArgs e)
         {
-            //if (playerColors.Count == numOfPlayers)
-                DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
         private void CancelButton_Click(object sender, EventArgs e)
         {
