@@ -8,7 +8,7 @@
         private readonly MultiplayerManager? _mp;
 
         // Pass these in from wherever you create WinLoseForm
-        public EndingForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp, bool youWon)
+        public EndingForm(int[] sizesOfObjects, float percent, List<string>? playerColors, MultiplayerManager? mp, bool youWon, int myPlayerIndex)
         {
             InitializeComponent();
 
@@ -16,6 +16,9 @@
             _percent = percent;
             _playerColors = playerColors;
             _mp = mp;
+
+            if (playerColors != null)
+                resultLabel.Text += "(" + playerColors[myPlayerIndex] + ") ";
 
             if (youWon)
             {

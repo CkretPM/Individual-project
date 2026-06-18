@@ -4,10 +4,10 @@ namespace Indigo
 {
     public partial class MultiplayerForm : Form
     {
-        List<string> colors = [];
+        readonly List<string> colors = [];
         float percent = 1;
 
-        int[] sizesOfObjects = [];
+        readonly int[] sizesOfObjects = [];
 
         private readonly string _connectionString =
             "Host=localhost;" +

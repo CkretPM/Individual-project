@@ -65,9 +65,9 @@
             // 
             resultLabel.BackColor = Color.Gray;
             resultLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            resultLabel.Location = new Point(284, 89);
+            resultLabel.Location = new Point(221, 89);
             resultLabel.Name = "resultLabel";
-            resultLabel.Size = new Size(234, 127);
+            resultLabel.Size = new Size(346, 127);
             resultLabel.TabIndex = 44;
             resultLabel.Text = "You've ";
             resultLabel.TextAlign = ContentAlignment.MiddleCenter;

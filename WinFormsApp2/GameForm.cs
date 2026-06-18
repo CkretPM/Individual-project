@@ -7,13 +7,13 @@ namespace Indigo
     public partial class GameForm : Form
     {
         readonly List<Tile> tiles = [];
-        readonly List<Gem> gems = [];                                        // lists of main objects
+        readonly List<Gem> gems = [];                               // lists of main objects
         readonly List<PlayerToken> playerTokens = [];
 
         readonly Vector2[] points;
         readonly List<int> picNumbers = [];
         readonly Tile[] placedTiles;
-        readonly List<Gem> movingGems = [];                                  // additional lists of objects
+        readonly List<Gem> movingGems = [];                         // additional lists of objects
         readonly List<float> playersPoints = [];
         List<string> playerColors = [];
         List<int[]> gatewayOwners = [];
@@ -24,11 +24,14 @@ namespace Indigo
         Bitmap staticLayer;
 
         readonly int rings = 5;
-        readonly int totalGems = 12;                                         // game parameters
-        readonly float distanceFromCtoC = 10000;
+        readonly int totalGems = 12;                                         
+        readonly float distanceFromCtoC = 10000;                    // game parameters
+        readonly float scale = 1;
+        readonly int[] sizesOfObjects = [];
         int numOfPlayers = 0;
-        float scale = 1;
-        int[] sizesOfObjects = [];
+
+        readonly int widthOffset = 20;
+        readonly int heightOffset = 5;                              // persition by eye
 
         int totalTiles = 0;
         int xPos = 50;
@@ -37,21 +40,18 @@ namespace Indigo
         int lineAnimation = 0;
         int gemsLeft = 0;
 
-        static int widthOffset = 20;
-        static int heightOffset = 5;                                // persition by eye
-
         bool debugMode = false;
-        bool hideMode = false;                                      // modes
+        bool hideMode = false;                                      // game modes
 
         bool leftDown = false;
         bool rightDown = false;                                     // mouse buttons
 
         private MultiplayerManager? _mp;
         private CancellationTokenSource? _reviewCts;
-        private bool _isClosing = false;                            // online 
+        private bool _isClosing = false;                            // parameters for online mode
         private bool _isReviewMode = false;
         private bool _isOnlineGame = false;
-        private int _myPlayerIndex;
+        private readonly int _myPlayerIndex;
         private int _availableTileId;
 
         public GameForm(int[] sizesOfObjects, float percent, List<string>? playerColors = null, MultiplayerManager? mp = null, int _myPlayerIndex = -1)
@@ -713,7 +713,7 @@ namespace Indigo
                 if (playersPoints[_myPlayerIndex] == playersPoints.Max())
                     youWon = true;
 
-                var form = new EndingForm(sizesOfObjects, scale, playerColors, _mp, youWon);
+                var form = new EndingForm(sizesOfObjects, scale, playerColors, _mp, youWon, _myPlayerIndex);
                 form.Show();
             }
         }
